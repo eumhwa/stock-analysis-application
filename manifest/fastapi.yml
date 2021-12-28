@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fastapi-app
+spec:
+  containers:
+  - name: backend
+    image: backed:dev
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 8002

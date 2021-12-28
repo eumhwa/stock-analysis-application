@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: streamlit-app
+spec:
+  containers:
+  - name: frontend
+    image: frontend:dev
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 8000
