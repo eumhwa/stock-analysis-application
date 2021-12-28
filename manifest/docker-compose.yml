@@ -1,0 +1,17 @@
+version: "3"
+services:
+  backend:
+    container_name: backend
+    image: "backend:dev"
+    volumes:
+      - "/Users/eumhwa/Desktop/project/stock-analysis-application:/code"
+    ports:
+      - "8002:8002"
+      - "8003:8003"
+  frontend:
+    container_name: frontend
+    image: "frontend:dev"
+    volumes:
+      - "/Users/eumhwa/Desktop/project/stock-analysis-application:/code"
+    ports:
+      - "8000:8501"

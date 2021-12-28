@@ -4,3 +4,6 @@ fastapi
 pydantic
 beautifulsoup4
 numpy
+pandas
+lxml
+kubernetes
