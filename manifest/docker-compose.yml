@@ -15,3 +15,4 @@ services:
       - "/Users/eumhwa/Desktop/project/stock-analysis-application:/code"
     ports:
       - "8000:8501"
+      - "8001:8502"
