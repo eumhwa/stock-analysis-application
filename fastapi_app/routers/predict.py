@@ -10,10 +10,10 @@ router = APIRouter()
 
 
 @router.post(
-    "/sample-api",
-    summary="[predict-001] 기능",
+    "/start-forecast",
+    summary="[predict-001] forecasting api",
     description="",
     # response_model=str,
 )
-def function():
+def start_forecasting():
     return

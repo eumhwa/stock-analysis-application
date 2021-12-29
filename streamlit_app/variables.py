@@ -8,15 +8,15 @@ class Config(BaseSettings):
 
     code_json_path:str = "./fastapi_app/stock_code.json"
     stock_code:dict = {}
-    bs4_parser:str = "html.parser"
-
-    base_stock_price_url:str = "https://finance.naver.com/item/sise_day.naver?code="
-    headers:dict = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36"}
-    price_data_cols:list = ["date", "last_price", "diff", "start_price", "high_price", "low_price", "volume"]
-    not_use_col:list = ["diff"]
+    
+    demo_stock_name:str = "삼성전자"
+    demo_year:int = 2021
+    demo_month:int = 1
+    demo_day:int = 1
+    demo_ndata:int = 200
     
     frontend_url:str = "http://localhost:8000"
-    backend_url:str = "http://172.26.0.3:8002"
+    backend_url:str = "http://172.26.0.2:8002"
     algorithm_url:str = ""
 
 def load_code_json(json_path:str):
