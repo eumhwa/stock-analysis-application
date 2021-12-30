@@ -5,6 +5,9 @@ services:
     image: "backend:dev"
     volumes:
       - "/Users/eumhwa/Desktop/project/stock-analysis-application:/code"
+    networks: 
+      stock-net: 
+        ipv4_address: 172.26.0.2
     ports:
       - "8002:8002"
       - "8003:8003"
@@ -16,3 +19,8 @@ services:
     ports:
       - "8000:8501"
       - "8001:8502"
+
+networks: 
+  stock-net: 
+    external: 
+      name: stock-project
