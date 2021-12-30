@@ -1,5 +1,7 @@
 import os
 import json
+import string
+import random
 import requests
 import pandas as pd
 
@@ -93,3 +95,16 @@ def update_stock_code(stock_name:str, stock_code:str):
         json.dump(code_dict, o, ensure_ascii = False)
 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get(
+    "/id",
+    summary="[crawling-003] job id API",
+    description="",
+    # response_model=str,
+    )
+def create_job_id(size:int=7):
+    chars = ','.join(string.ascii_lowercase).split(',')
+    numbers = list(map(str, list(range(10))))
+    cand = chars + numbers
+    return ''.join(random.sample(cand, size))
