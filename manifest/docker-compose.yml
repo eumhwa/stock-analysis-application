@@ -11,6 +11,7 @@ services:
     ports:
       - "8002:8002"
       - "8003:8003"
+      
   frontend:
     container_name: frontend
     image: "frontend:dev"
@@ -22,6 +23,18 @@ services:
     ports:
       - "8000:8501"
       - "8001:8502"
+  
+  ai:
+    container_name: test_ai
+    image: "ai:dev"
+    volumes:
+      - "/Users/eumhwa/Desktop/project/stock-analysis-application:/code"
+    networks: 
+      stock-net: 
+        ipv4_address: 172.26.0.4
+    ports:
+      - "8889:8889"
+    command: "jupyter lab --no-browser --ip=0.0.0.0 --port 8889 --allow-root  --no-browser --NotebookApp.token='eh'"
 
 networks: 
   stock-net: 
