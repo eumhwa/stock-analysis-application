@@ -2,9 +2,6 @@ import json
 from pydantic import BaseSettings
 
 class Config(BaseSettings):
-    '''
-    headers -> http://www.useragentstring.com/
-    '''
 
     code_json_path:str = "./fastapi_app/stock_code.json"
     stock_code:dict = {}
@@ -15,8 +12,13 @@ class Config(BaseSettings):
     demo_day:int = 1
     demo_ndata:int = 200
     
-    frontend_url:str = "http://localhost:8000"
+    available_model_set:tuple = ('ARIMA', 'TFT', 'N-Beats')
+    
+    frontend_url:str = "http://172.26.0.3:8000"
+    test_frontend_url:str = "http://172.26.0.3:8001"
     backend_url:str = "http://172.26.0.2:8002"
+    test_backend_url:str = "http://172.26.0.2:8003"
+    
     algorithm_url:str = ""
 
 def load_code_json(json_path:str):

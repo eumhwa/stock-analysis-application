@@ -44,23 +44,30 @@ if c2.checkbox(f'Show line chart'):
 
 st.subheader("Training")
 parameters = st.expander("Train parameters", False)
-model = parameters.selectbox('model selection', ('ARIMA', 'TFT', 'N-Beats'))
+model = parameters.selectbox('model selection', config.available_model_set)
 stocks = parameters.selectbox('target stock', tuple(code_dict.keys()))
 date = parameters.date_input("start date", min_value=datetime.strptime(f"2018.01.01", "%Y.%m.%d"))
+iw = parameters.number_input("input window size", 1, 15)
+ow = parameters.number_input("output window size", 1, 5)
 val_ratio = parameters.slider('validation data ratio', 0.5, 1.0, step=0.05)
 
 t1, t2 = st.columns(2)
 if t1.button("Start training"):
     train_data = {
-        "stock_name": str(stocks), "start_year": int(date.year), 
-        "start_month": int(date.month), "start_day": int(date.day), "valid_rate": float(val_ratio)
+        "stock_name": str(stocks), 
+        "start_year": int(date.year), 
+        "start_month": int(date.month), 
+        "start_day": int(date.day), 
+        "train_parameter": {
+            "model_name": model, "valid_rate":float(val_ratio), "input_window":iw, "output_window":ow
+            }
         }
-    resp = requests.post(f"{config.backend_url}/train/start-training", data=train_data)
+    resp = requests.post(f"{config.test_backend_url}/train/start-training", data=json.dumps(train_data))
     if str(resp.status_code) == "200":
         st.write("Training started..")
-        st.success(f"parameter set: [{model}, {stocks}, {date}, {val_ratio}]")
+        st.success(f"parameter set: [{train_data}]")
     else:
-        st.write(f"Trainig failed: {resp}, {train_data}")
+        st.write(f"Trainig failed: {resp.status_code}")
         st.error("Error")
         
 
