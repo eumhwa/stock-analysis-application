@@ -7,6 +7,7 @@ class Config(BaseSettings):
     '''
 
     code_json_path:str = "./fastapi_app/stock_code.json"
+    data_path:str = "./data"
     stock_code:dict = {}
     bs4_parser:str = "html.parser"
 
@@ -15,8 +16,11 @@ class Config(BaseSettings):
     price_data_cols:list = ["date", "last_price", "diff", "start_price", "high_price", "low_price", "volume"]
     not_use_col:list = ["diff"]
     
-    frontend_url:str = "http://localhost:8000"
-    backend_url:str = "http://172.26.0.3:8002"
+    frontend_url:str = "http://172.26.0.3:8000"
+    test_frontend_url:str = "http://172.26.0.3:8001"
+    backend_url:str = "http://172.26.0.2:8002"
+    test_backend_url:str = "http://172.26.0.2:8003"
+    
     algorithm_url:str = ""
 
 def load_code_json(json_path:str):
