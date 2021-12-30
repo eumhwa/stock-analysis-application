@@ -12,6 +12,8 @@ class Config(BaseSettings):
     demo_day:int = 1
     demo_ndata:int = 200
     
+    job_id:str = ""
+    job_id_size:int = 7
     available_model_set:tuple = ('ARIMA', 'TFT', 'N-Beats')
     
     frontend_url:str = "http://172.26.0.3:8000"

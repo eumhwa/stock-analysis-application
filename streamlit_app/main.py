@@ -44,6 +44,10 @@ if c2.checkbox(f'Show line chart'):
 
 st.subheader("Training")
 parameters = st.expander("Train parameters", False)
+if parameters.button("create job id"):
+    job_id = requests.get(f"{config.test_backend_url}/crawl/id?size={config.job_id_size}")
+    config.job_id = str(job_id.json())
+    parameters.write(config.job_id)
 model = parameters.selectbox('model selection', config.available_model_set)
 stocks = parameters.selectbox('target stock', tuple(code_dict.keys()))
 date = parameters.date_input("start date", min_value=datetime.strptime(f"2018.01.01", "%Y.%m.%d"))
@@ -51,9 +55,10 @@ iw = parameters.number_input("input window size", 1, 15)
 ow = parameters.number_input("output window size", 1, 5)
 val_ratio = parameters.slider('validation data ratio', 0.5, 1.0, step=0.05)
 
-t1, t2 = st.columns(2)
+t1, t2, t3 = st.columns(3)
 if t1.button("Start training"):
     train_data = {
+        "job_id": config.job_id,
         "stock_name": str(stocks), 
         "start_year": int(date.year), 
         "start_month": int(date.month), 
@@ -62,18 +67,30 @@ if t1.button("Start training"):
             "model_name": model, "valid_rate":float(val_ratio), "input_window":iw, "output_window":ow
             }
         }
-    resp = requests.post(f"{config.test_backend_url}/train/start-training", data=json.dumps(train_data))
-    if str(resp.status_code) == "200":
-        st.write("Training started..")
-        st.success(f"parameter set: [{train_data}]")
+    if config.job_id != "":
+        resp = requests.post(f"{config.test_backend_url}/train/start-training", data=json.dumps(train_data))
+        if str(resp.status_code) in ["200", "204"]:
+            st.write("Training started..")
+            st.success(f"parameter set: [{train_data}]")
+        else:
+            st.write(f"Trainig failed: {resp.status_code}")
+            st.error("Error")
     else:
-        st.write(f"Trainig failed: {resp.status_code}")
-        st.error("Error")
-        
+        st.write("job id not specified, create job id first!!")
 
-if t2.button("Check training"):
-    st.write("Training started..")
-    st.success("in progress")
+if t2.button("Check current job id"):
+    if config.job_id != "":
+        st.write(config.job_id)
+    else:
+        st.write("job id not specified")
+
+if t3.button("Check training"):
+    status = requests.get(f"{config.test_backend_url}/train/check-status?job_id={config.job_id}")
+    if str(status.status_code)   == "200":
+        st.write("Checking job status..")
+        st.success(f"Job {config.job_id} is {status.json()}")
+    else:
+        st.error(f"Job {config.job_id} got error")
 
 # if t1.button("Setup"):
 #     st.sidebar.write("Training information")
