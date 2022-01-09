@@ -40,6 +40,7 @@ class TrainInput(BaseModel):
 def start_training(inputs:TrainInput):
     if validate_date(inputs.start_year, inputs.start_month, inputs.start_day):
         raise HTTPException(status_code=400, detail="date format error")
+    code_json = load_code_json(config.code_json_path)
 
     data = scrap_price(
         inputs.stock_name, inputs.start_year, inputs.start_month, inputs.start_day
@@ -47,6 +48,7 @@ def start_training(inputs:TrainInput):
 
     input_dict = inputs.train_parameter.__dict__
     input_dict["job_id"] = inputs.job_id
+    input_dict["stock_code"] = code_json[inputs.stock_name]
     print(input_dict)
 
     data_path = f"{config.data_path}/{input_dict['job_id']}"
