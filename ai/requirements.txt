@@ -1,2 +1,3 @@
 pytorch-forecasting
+bentoml
 jupyterlab
