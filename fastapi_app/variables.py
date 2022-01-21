@@ -1,4 +1,4 @@
-import json
+import os, json
 from pydantic import BaseSettings
 
 class Config(BaseSettings):
@@ -16,10 +16,12 @@ class Config(BaseSettings):
     price_data_cols:list = ["date", "last_price", "diff", "start_price", "high_price", "low_price", "volume"]
     not_use_col:list = ["diff"]
     
-    frontend_url:str = "http://172.26.0.3:8000"
-    test_frontend_url:str = "http://172.26.0.3:8001"
-    backend_url:str = "http://172.26.0.2:8002"
-    test_backend_url:str = "http://172.26.0.2:8003"
+    n_cpu:int = os.environ["N_CPU"]
+
+    frontend_url:str = f"{os.environ["FE_URL"]}:{os.environ["FE_PORT"]}"
+    test_frontend_url:str = f"{os.environ["FE_URL"]}:{os.environ["FE_TEST_PORT"]}"
+    backend_url:str = f"{os.environ["BE_URL"]}:{os.environ["BE_PORT"]}"
+    test_backend_url:str = f"{os.environ["BE_URL"]}:{os.environ["BE_TEST_PORT"]}"
     
     algorithm_url:str = ""
 
