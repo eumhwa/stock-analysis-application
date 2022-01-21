@@ -11,6 +11,14 @@ services:
     ports:
       - "8002:8002"
       - "8003:8003"
+    environment:
+      - FE_URL=http://172.26.0.3
+      - BE_URL=http://172.26.0.2
+      - FE_PORT=8000
+      - FE_TEST_PORT=8001
+      - BE_PORT=8002
+      - BE_TEST_PORT=8003
+      - N_CPU=4
       
   frontend:
     container_name: frontend
@@ -23,6 +31,13 @@ services:
     ports:
       - "8000:8501"
       - "8001:8502"
+    environment:
+      - FE_URL=http://172.26.0.3
+      - BE_URL=http://172.26.0.2
+      - FE_PORT=8000
+      - FE_TEST_PORT=8001
+      - BE_PORT=8002
+      - BE_TEST_PORT=8003
   
   ai:
     container_name: test_ai
