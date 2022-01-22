@@ -86,13 +86,13 @@ def scrap_price(stock_name:str, start_year:int=2020, start_month:int=1, start_da
     data = data.loc[data["date"] >= start_date, :].reset_index(drop=True)
     
     print(data.head())
-    print(f"#4. crawled data shape is {data.shape}")
+    print(f"#5. crawled data shape is {data.shape}")
     return  data.to_json()
 
 
 @router.get(
     "/scrap-price-ray",
-    summary="[crawling-001] stock price data crawling api",
+    summary="[crawling-002] stock price data crawling api using ray",
     description="",
     # response_model=str,
 )
@@ -124,12 +124,12 @@ def scrap_price(stock_name:str, start_year:int=2020, start_month:int=1, start_da
     for _ in range(len(jobs)):
         done, jobs = ray.wait(jobs)
         tmp = ray.get(done[0])
-        
+        data = merge_data(data, tmp)
+
         tmp_min_date = pd.to_datetime(tmp.iloc[:, 0]).min(skipna=True)
         if tmp_min_date <= start_date:
             print("#3. iteration breaked!")
             break
-        data = merge_data(data, tmp)
     
     print(f"#4. duration: {time.time() - tic}")
     data.dropna(inplace=True)
@@ -142,12 +142,12 @@ def scrap_price(stock_name:str, start_year:int=2020, start_month:int=1, start_da
     data = data.loc[data["date"] >= start_date, :].reset_index(drop=True)
     
     print(data.head())
-    print(f"#4. crawled data shape is {data.shape}")
+    print(f"#5. crawled data shape is {data.shape}")
     return  data.to_json()
 
 @router.put(
     "/update_code",
-    summary="[crawling-002] stock code json updating API",
+    summary="[crawling-003] stock code json updating API",
     description="",
     # response_model=str,
     )
@@ -167,7 +167,7 @@ def update_stock_code(stock_name:str, stock_code:str):
 
 @router.get(
     "/id",
-    summary="[crawling-003] job id API",
+    summary="[crawling-004] job id API",
     description="",
     # response_model=str,
     )
