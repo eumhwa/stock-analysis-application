@@ -18,10 +18,10 @@ class Config(BaseSettings):
     
     n_cpu:int = os.environ["N_CPU"]
 
-    frontend_url:str = f"{os.environ["FE_URL"]}:{os.environ["FE_PORT"]}"
-    test_frontend_url:str = f"{os.environ["FE_URL"]}:{os.environ["FE_TEST_PORT"]}"
-    backend_url:str = f"{os.environ["BE_URL"]}:{os.environ["BE_PORT"]}"
-    test_backend_url:str = f"{os.environ["BE_URL"]}:{os.environ["BE_TEST_PORT"]}"
+    frontend_url:str = f'{os.environ["FE_URL"]}:{os.environ["FE_PORT"]}'
+    test_frontend_url:str = f'{os.environ["FE_URL"]}:{os.environ["FE_TEST_PORT"]}'
+    backend_url:str = f'{os.environ["BE_URL"]}:{os.environ["BE_PORT"]}'
+    test_backend_url:str = f'{os.environ["BE_URL"]}:{os.environ["BE_TEST_PORT"]}'
     
     algorithm_url:str = ""
 
